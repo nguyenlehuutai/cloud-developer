@@ -22,7 +22,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     
     // 1. validate the image_url query
     if (image_url == null || image_url.length === 0) {
-      res.json({message : 'image_url is required.'});
+      res.status(400).send('image_url is required.');
     }
     
     let file: string;
@@ -31,14 +31,14 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       result => {
           const files = [result];
           // 3. send the resulting file in the response
-          res.sendFile(result, () => {
+          res.status(200).sendFile(result, () => {
             // 4. deletes any files on the server on finish of the response
             deleteLocalFiles(files);
           });
         file = result;
       },
       error => {
-        res.json({message : error});
+        res.status(500).send(error);
       }
     );
   });
