@@ -6,6 +6,7 @@ service: serverless-todo-app
 plugins:
   - serverless-webpack
   - serverless-reqvalidator-plugin
+  - serverless-aws-documentation
   - serverless-iam-roles-per-function
   - serverless-dynamodb-local
   - serverless-offline
@@ -117,9 +118,14 @@ functions:
           cors: true
           authorizer: RS256Auth
           reqValidatorName: RequestBodyValidator
-          request:
-            schemas:
-              application/json: ${file(models/create-todo-model.json)}
+          documentation:
+            summary: Create a new todo
+            description: create a new todo
+            requestModels:
+              'application/json': CreateTodoRequest
+          #request:
+          #  schemas:
+          #    application/json: ${file(models/create-todo-model.json)}
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -137,9 +143,14 @@ functions:
           cors: true
           authorizer: RS256Auth
           reqValidatorName: RequestBodyValidator
-          request:
-            schemas:
-              application/json: ${file(models/update-todo-model.json)}
+          documentation:
+            summary: Update a todo
+            description: Update a todo
+            requestModels:
+              'application/json': UpdateTodoRequest
+          #request:
+          #  schemas:
+          #    application/json: ${file(models/update-todo-model.json)}
     iamRoleStatements:
       - Effect: Allow
         Action:
